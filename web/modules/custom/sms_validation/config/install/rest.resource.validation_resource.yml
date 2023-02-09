@@ -1,0 +1,13 @@
+
+langcode: en
+status: true
+id: validation_resource
+plugin_id: validation_resource
+granularity: resource
+configuration:
+  methods:
+    - GET
+  formats:
+    - json
+  authentication:
+    - basic_auth
