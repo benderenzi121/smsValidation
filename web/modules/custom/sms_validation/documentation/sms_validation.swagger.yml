@@ -35,10 +35,8 @@ paths:
                 type: "object"
                 properties:
                     errors:
-                      type: "array"
-                      items:
-                        type: "object"
-                        properties:
+                      type: "object"
+                      properties:
                           status:
                             type: "string"
                           title:

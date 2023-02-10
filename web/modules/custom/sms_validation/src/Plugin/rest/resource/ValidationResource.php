@@ -62,8 +62,6 @@ class ValidationResource extends ResourceBase
 
                 return new ResourceResponse($document->toArray(), 400);
             }
-           
-
             // Calls to the verify SMS function of the twilio service.
             // this is a paid request that returns mobile carrier information
             $result = $twilio_connector_service->verifySms($phoneNumber);
