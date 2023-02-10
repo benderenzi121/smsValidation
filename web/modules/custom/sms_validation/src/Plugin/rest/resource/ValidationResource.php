@@ -29,7 +29,10 @@ class ValidationResource extends ResourceBase
      */
     public function get($phoneNumber) 
     {
+        // Initialize our Twilio service object
         $twilio_connector_service = \Drupal::Service(id: 'twilio.api_connector');
+        // Makes a request through twilio SDK. 
+        // Will return an empty array if the request could not be made
         $verifyNumber = $twilio_connector_service->verifyNumber($phoneNumber);
        
         if (!empty($verifyNumber)) {
@@ -37,50 +40,46 @@ class ValidationResource extends ResourceBase
                 'valid' => $verifyNumber->valid,
                 'countryCode' => $verifyNumber->countryCode,
               ];
-              
             if ($phone_number_data['valid'] == false) {
-                $non_valid_error = [
-                  'errors' => [
-                    "status" => '400',
+                $document = new Document();
+                $document->setErrors(
+                    [
+                    'status' => '400',
                     "title" => 'Invalid Phone Number',
                     "detail" => 'the provided number is not recognized as a valid phone number',
-                  ],
-                ];
-                return new ResourceResponse($non_valid_error, 400);
+                    ]
+                );
+                return new ResourceResponse($document->toArray(), 400);
             } elseif ($phone_number_data['countryCode'] != 'US') {
-                $non_us_error = [
-                  'errors' => [
+                $document = new Document();
+                $document->setErrors(
+                    [
                     "status" => '400',
                     "title" => 'Invalid Phone Number',
                     "detail" => 'the provided number must must reside in the US',
-                  ],
-                ];
-                return new ResourceResponse($non_us_error, 400);
-            }
-            if ($phone_number_data['valid'] == true && $phone_number_data['countryCode'] == 'US') {
+                    ]
+                );
 
-                // Calls to the verify SMS function of the twilio service.
-                // this is a paid request that Looks for mobile carrier information and returns it.
-                $result = $twilio_connector_service->verifySms($phoneNumber);
-                if ($result === 'mobile') {
-                    // Good response for mobile numbers.
-                    return new ResourceResponse(202);
-                } else {
-                    // Bad response for no mobile numbers.
-                    $non_mobile_error = [
-                    'errors' => [
-                      "status" => '400',
-                      "title" => 'Invalid Phone Number',
-                      "detail" => 'the provided number must be a valid mobile number to recieve sms',
-                    ],
-                    ];
-                     return new ResourceResponse($non_mobile_error, 500);
-                }
-            } else {
-                // We shouldnt have ever made it here (planning on removing)
-                return new ResourceResponse('501');
+                return new ResourceResponse($document->toArray(), 400);
             }
-            
+           
+
+            // Calls to the verify SMS function of the twilio service.
+            // this is a paid request that returns mobile carrier information
+            $result = $twilio_connector_service->verifySms($phoneNumber);
+            if ($result === 'mobile') {
+                return new ResourceResponse(202);
+            } else {
+                $document = new Document();
+                $document->setErrors(
+                    [
+                    "status" => '400',
+                    "title" => 'Invalid Phone Number',
+                    "detail" => 'the provided number must be a valid mobile number to recieve sms',
+                    ]
+                );
+                  return new ResourceResponse($document->toArray(), 500);
+            }
         }
         return new ResourceResponse($verifyNumber);
     }
