@@ -1,0 +1,50 @@
+openapi: 3.0.0
+info:
+  title: SMS Validation
+  version: v1
+servers:
+  - url: "https://apiservices.pencor.com:8343/shorty/v1"
+    description: Production Server
+  - url: "https://apiservices-test.pencor.com:8343/shorty/v1"
+    description: Test Server (IT Slice)
+  - url: "https://vmpsiwso2sbam01.pencor.com:8343/shorty/v1"
+    description: Sandbox Server (D1 Slice)
+paths:
+  "/smsValidation/{phoneNumber}":
+    get:
+      tags:
+        - "Validation Resource"
+      summary: "Validate a phone number"
+      description: "Validates a phone number to ensure it is a mobile number from the US."
+      parameters:
+        - in: path
+          name: phoneNumber
+          schema:
+            type: string
+          required: true
+          description: The phone number we would like to validate SMS for.
+
+      responses:
+        "200":
+          description: "OK"
+        "400":
+          description: "Invalid phone number."
+          content:
+            application/json:
+              schema:
+                type: "object"
+                properties:
+                    errors:
+                      type: "array"
+                      items:
+                        type: "object"
+                        properties:
+                          status:
+                            type: "string"
+                          title:
+                            type: "string"
+                          detail:
+                            type: "string"
+
+      x-auth-type: "Application & Application User"
+      x-throttling-tier: Unlimited

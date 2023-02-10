@@ -28,6 +28,7 @@ class ComposerStaticInit8f411d8913d72bcea7f5e6c256d4d3de
         array (
             'Twilio\\' => 7,
             'Twig\\' => 5,
+            'Tobscure\\JsonApi\\' => 17,
         ),
         'S' => 
         array (
@@ -109,6 +110,10 @@ class ComposerStaticInit8f411d8913d72bcea7f5e6c256d4d3de
         'Twig\\' => 
         array (
             0 => __DIR__ . '/..' . '/twig/twig/src',
+        ),
+        'Tobscure\\JsonApi\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/tobscure/json-api/src',
         ),
         'Symfony\\Polyfill\\Php72\\' => 
         array (

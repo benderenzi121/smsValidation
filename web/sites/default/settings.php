@@ -825,3 +825,7 @@ $databases['default']['default'] = array (
   'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
 );
 $settings['config_sync_directory'] = 'sites/default/files/config_FDRn9JFR6RTZl5Au0XMjyzsQ6yqayQEpeXt_1euZucKMsc2vS_3JR9AVMWwwp5ostLPDDqaelg/sync';
+
+//twilio auth and SID
+$settings['twilio_sid'] = 'AC91121581a65a14958ee7521f8576a3a5';
+$settings['twilio_auth'] = '9938523d31aa68e7d4d76ee5126a24a6';

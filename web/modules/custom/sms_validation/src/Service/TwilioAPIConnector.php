@@ -25,11 +25,10 @@
 
     public function __construct(\Drupal\core\http\ClientFactory $client)
     {
-        $sid = 'AC91121581a65a14958ee7521f8576a3a5';
-        $token = '';
+        $sid = Settings::get('twilio_sid');
+        $token = Settings::get('twilio_auth');
 
         $this->twilioClient = new Client($sid, $token);
-
     }
 
     /**

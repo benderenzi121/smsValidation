@@ -3,6 +3,10 @@ namespace Drupal\sms_validation\Plugin\rest\resource;
 
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use Tobscure\JsonApi\Collection;
+use Tobscure\JsonApi\Document;
+use Tobscure\JsonApi\ErrorHandler;
+use Tobscure\JsonApi\Resource;
 
 /**
  * Provides a Demo Resource
@@ -27,7 +31,7 @@ class ValidationResource extends ResourceBase
     {
         $twilio_connector_service = \Drupal::Service(id: 'twilio.api_connector');
         $verifyNumber = $twilio_connector_service->verifyNumber($phoneNumber);
-        $response = ['message' => 'Hello, this is our validation resource' . $phoneNumber];
+       
         if (!empty($verifyNumber)) {
             $phone_number_data = [
                 'valid' => $verifyNumber->valid,
