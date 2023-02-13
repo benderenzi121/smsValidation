@@ -24,12 +24,12 @@ class TwilioAPIConnector {
   public function __construct() {
     // Test API does not send out SMS.
     if (Settings::get('environment') === 'dev') {
-      $sid   = Settings::get('test_twilio_sid');
-      $token = Settings::get('test_twilio_token');
+      $sid   = 'AC91121581a65a14958ee7521f8576a3a5';
+      $token = 'a2d2af4a805e6994bf232f7dbc081def';
     }
     else {
-      $sid   = Settings::get('twilio_sid');
-      $token = Settings::get('twilio_token');
+      $sid   = 'AC91121581a65a14958ee7521f8576a3a5';
+      $token = 'a2d2af4a805e6994bf232f7dbc081def';
     }
 
     $this->twilioClient = new Client($sid, $token);
@@ -40,43 +40,38 @@ class TwilioAPIConnector {
    *
    * @param string $phone_number
    *   Telephone Number to check.
+   * @param string $isValid
+   *   Flag to check whether number was already checked for validity.
    */
-  public function verifyNumber($phone_number) {
-    //adding a test comment to make sure version control isnt bunk
-    // Initialize an empty array that our data will eventually go into.
+  public function verifyNumber($phone_number, $isValid) {
     $data = [];
-
-    // Try to hit the twilio endpoint with the phone number provided.
-    try {
-      $validation = $this->twilioClient->lookups->v2->phoneNumbers($phone_number)->fetch();
-      $data = $validation;
+    // If the validity has not been checked: we check it here.
+    if ($isValid == FALSE) {
+      try {
+        $validation = $this->twilioClient->lookups->v2->phoneNumbers($phone_number)->fetch();
+        $data = $validation;
+      }
+      catch (TwilioException $e) {
+        throw $e;
+      }
+      catch (RequestException $e) {
+        \Drupal::logger($e);
+      }
+      return $data;
     }
-    catch (TwilioException $e) {
-      throw $e;
+    // If Number is already confirmed valid, we check for SMS capabilities here.
+    else {
+      try {
+        $validation = $this->twilioClient->lookups->v1->phoneNumbers($phone_number)->fetch(["type" => ["carrier"]]);
+      }
+      catch (TwilioException $e) {
+        throw $e;
+      }
+      catch (RequestException $e) {
+        \Drupal::logger($e);
+      }
+      return $validation->carrier['type'];
     }
-    catch (RequestException $e) {
-      \Drupal::logger('twilio', $e, $e->getMessage());
-    }
-    return $data;
-  }
-
-  /**
-   * VerifySms is used to verify that the number is a valid mobile number.
-   *
-   * @param string $phone_number
-   *   Phone Number to verify.
-   */
-  public function verifySms($phone_number) {
-    try {
-      $validation = $this->twilioClient->lookups->v1->phoneNumbers($phone_number)->fetch(["type" => ["carrier"]]);
-    }
-    catch (TwilioException $e) {
-      throw $e;
-    }
-    catch (RequestException $e) {
-      \Drupal::logger('twilio', $e, $e->getMessage());
-    }
-    return $validation->carrier['type'];
   }
 
 }
