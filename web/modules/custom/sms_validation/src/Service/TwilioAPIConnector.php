@@ -24,12 +24,12 @@ class TwilioAPIConnector {
   public function __construct() {
     // Test API does not send out SMS.
     if (Settings::get('environment') === 'dev') {
-      $sid   = 'AC91121581a65a14958ee7521f8576a3a5';
-      $token = 'a2d2af4a805e6994bf232f7dbc081def';
+      $sid   = Settings::get('test_twilio_sid');
+      $token = Settings::get('test_twilio_token');
     }
     else {
-      $sid   = 'AC91121581a65a14958ee7521f8576a3a5';
-      $token = 'a2d2af4a805e6994bf232f7dbc081def';
+      $sid   = Settings::get('twilio_sid');
+      $token = Settings::get('twilio_token');
     }
 
     $this->twilioClient = new Client($sid, $token);
