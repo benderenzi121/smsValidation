@@ -4,6 +4,9 @@ namespace Drupal\sms_validation\Plugin\rest\resource;
 
 use Drupal\rest\Plugin\ResourceBase;
 use Drupal\rest\ResourceResponse;
+use Drupal\sms_validation\Service\TwilioAPIConnector;
+use Psr\Log\LoggerInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Tobscure\JsonApi\Document;
 
 /**
@@ -18,6 +21,41 @@ use Tobscure\JsonApi\Document;
  * )
  */
 class ValidationResource extends ResourceBase {
+  /**
+   * Twilio Service variable.
+   *
+   * @var \Drupal\sms_validation\Service\TwilioAPIConnector
+   */
+  protected $twilioService;
+
+  /**
+   * Construct function.
+   */
+  public function __construct(
+    array $configuration,
+    $plugin_id,
+    $plugin_definition,
+    $serializer_formats,
+    LoggerInterface $logger,
+    TwilioAPIConnector $twilio_service,
+    ) {
+    parent::__construct($configuration, $plugin_id, $plugin_definition, $serializer_formats, $logger);
+    $this->twilioService = $twilio_service;
+  }
+
+  /**
+   * {@inheritdoc}
+   */
+  public static function create(ContainerInterface $container, array $configuration, $plugin_id, $plugin_definition) {
+    return new static(
+      $configuration,
+      $plugin_id,
+      $plugin_definition,
+      $container->getParameter('serializer.formats'),
+      $container->get('logger.factory')->get('rest'),
+      $container->get('twilio.api_connector'),
+    );
+  }
 
   /**
    * Responds to entity GET requests.

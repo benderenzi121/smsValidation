@@ -5,9 +5,7 @@ namespace Drupal\sms_validation\Service;
 use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 use Drupal\Core\Site\Settings;
-use Drupal\core\http\ClientFactory;
 use GuzzleHttp\Exception\RequestException;
-use Drupal;
 
 /**
  * Twilio connector class.
@@ -23,7 +21,7 @@ class TwilioAPIConnector {
   /**
    * Constructor function that creats an instance of our twilio client.
    */
-  public function __construct(ClientFactory $client) {
+  public function __construct() {
     // Test API does not send out SMS.
     if (Settings::get('environment') === 'dev') {
       $sid   = Settings::get('test_twilio_sid');
@@ -56,7 +54,7 @@ class TwilioAPIConnector {
       throw $e;
     }
     catch (RequestException $e) {
-      Drupal::logger('twilio', $e, $e->getMessage());
+      \Drupal::logger('twilio', $e, $e->getMessage());
     }
     return $data;
   }
@@ -75,7 +73,7 @@ class TwilioAPIConnector {
       throw $e;
     }
     catch (RequestException $e) {
-      Drupal::logger('twilio', $e, $e->getMessage());
+      \Drupal::logger('twilio', $e, $e->getMessage());
     }
     return $validation->carrier['type'];
   }
