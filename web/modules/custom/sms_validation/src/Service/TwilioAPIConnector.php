@@ -12,7 +12,7 @@ use GuzzleHttp\Exception\RequestException;
  */
 class TwilioAPIConnector {
   /**
-   * Twilio  client variable;.
+   * Twilio  client variable.
    *
    * @var Twilio\Rest\Client
    */

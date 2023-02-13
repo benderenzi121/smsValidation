@@ -64,11 +64,9 @@ class ValidationResource extends ResourceBase {
    *   Returns a response based on whether the number is valid.
    */
   public function get($phoneNumber) {
-    // Initialize our Twilio service object.
-    $twilio_connector_service = \Drupal::Service(id: 'twilio.api_connector');
     // Makes a request through twilio SDK.
     // Will return an empty array if the request could not be made.
-    $verifyNumber = $twilio_connector_service->verifyNumber($phoneNumber, FALSE);
+    $verifyNumber = $this->twilioService->verifyNumber($phoneNumber, FALSE);
 
     if (!empty($verifyNumber)) {
       $phone_number_data = [
@@ -100,7 +98,7 @@ class ValidationResource extends ResourceBase {
       }
       // Calls to the verify SMS function of the twilio service.
       // this is a paid request that returns mobile carrier information.
-      $result = $twilio_connector_service->verifyNumber($phoneNumber, TRUE);
+      $result = $this->twilioService->verifyNumber($phoneNumber, TRUE);
       if ($result === 'mobile') {
         return new ResourceResponse(202);
       }

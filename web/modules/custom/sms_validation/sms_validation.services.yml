@@ -1,4 +1,3 @@
 services: 
   twilio.api_connector:
     class: Drupal\sms_validation\Service\TwilioAPIConnector
-    arguments: ['@http_client_factory']
