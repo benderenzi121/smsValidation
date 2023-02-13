@@ -6,7 +6,7 @@ use Twilio\Exceptions\TwilioException;
 use Twilio\Rest\Client;
 use Drupal\Core\Site\Settings;
 use Drupal\core\http\ClientFactory;
-use GuzzleHttp\Exception\RequestException\GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\RequestException;
 use Drupal;
 
 /**
@@ -55,7 +55,7 @@ class TwilioAPIConnector {
     catch (TwilioException $e) {
       throw $e;
     }
-    catch (\GuzzleHttp\Exception\RequestException $e) {
+    catch (RequestException $e) {
       Drupal::logger('twilio', $e, $e->getMessage());
     }
     return $data;
