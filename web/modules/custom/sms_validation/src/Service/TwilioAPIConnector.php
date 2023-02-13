@@ -46,32 +46,25 @@ class TwilioAPIConnector {
   public function verifyNumber($phone_number, $isValid) {
     $data = [];
     // If the validity has not been checked: we check it here.
-    if ($isValid == FALSE) {
-      try {
+    try {
+      if ($isValid == FALSE) {
         $validation = $this->twilioClient->lookups->v2->phoneNumbers($phone_number)->fetch();
         $data = $validation;
       }
-      catch (TwilioException $e) {
-        throw $e;
-      }
-      catch (RequestException $e) {
-        \Drupal::logger($e);
-      }
-      return $data;
-    }
-    // If Number is already confirmed valid, we check for SMS capabilities here.
-    else {
-      try {
+      else {
         $validation = $this->twilioClient->lookups->v1->phoneNumbers($phone_number)->fetch(["type" => ["carrier"]]);
+        return $validation->carrier['type'];
       }
-      catch (TwilioException $e) {
-        throw $e;
-      }
-      catch (RequestException $e) {
-        \Drupal::logger($e);
-      }
-      return $validation->carrier['type'];
+
     }
+    catch (TwilioException $e) {
+      throw $e;
+    }
+    catch (RequestException $e) {
+      \Drupal::logger($e);
+    }
+    return $data;
+
   }
 
 }

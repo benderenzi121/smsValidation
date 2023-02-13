@@ -828,6 +828,4 @@ $settings['config_sync_directory'] = 'sites/default/files/config_FDRn9JFR6RTZl5A
 
 //twilio auth and SID
 $settings['twilio_sid'] = 'AC91121581a65a14958ee7521f8576a3a5';
-$settings['twilio_auth'] = 'a2d2af4a805e6994bf232f7dbc081def';
-$settings['test_twilio_sid'] = 'AC91121581a65a14958ee7521f8576a3a5';
-$settings['test_twilio_auth'] = 'a2d2af4a805e6994bf232f7dbc081def';
+$settings['twilio_auth'] = '';
