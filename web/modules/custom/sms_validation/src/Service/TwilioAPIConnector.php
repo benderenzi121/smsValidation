@@ -42,6 +42,7 @@ class TwilioAPIConnector {
    *   Telephone Number to check.
    */
   public function verifyNumber($phone_number) {
+    //adding a test comment to make sure version control isnt bunk
     // Initialize an empty array that our data will eventually go into.
     $data = [];
 
