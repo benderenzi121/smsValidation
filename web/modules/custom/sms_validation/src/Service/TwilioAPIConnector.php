@@ -44,12 +44,13 @@ class TwilioAPIConnector {
    *   Flag to check whether number was already checked for validity.
    */
   public function verifyNumber($phone_number, $isValid) {
-    $data = [];
     // If the validity has not been checked: we check it here.
     try {
       if ($isValid == FALSE) {
+        $data = [];
         $validation = $this->twilioClient->lookups->v2->phoneNumbers($phone_number)->fetch();
         $data = $validation;
+        return $data;
       }
       else {
         $validation = $this->twilioClient->lookups->v1->phoneNumbers($phone_number)->fetch(["type" => ["carrier"]]);
@@ -63,7 +64,6 @@ class TwilioAPIConnector {
     catch (RequestException $e) {
       \Drupal::logger($e);
     }
-    return $data;
 
   }
 
