@@ -22,15 +22,8 @@ class TwilioAPIConnector {
    * Constructor function that creats an instance of our twilio client.
    */
   public function __construct() {
-    // Test API does not send out SMS.
-    if (Settings::get('environment') === 'dev') {
-      $sid   = Settings::get('test_twilio_sid');
-      $token = Settings::get('test_twilio_token');
-    }
-    else {
-      $sid   = Settings::get('twilio_sid');
-      $token = Settings::get('twilio_token');
-    }
+    $sid   = Settings::get('twilio_sid');
+    $token = Settings::get('twilio_token');
 
     $this->twilioClient = new Client($sid, $token);
   }
@@ -40,17 +33,15 @@ class TwilioAPIConnector {
    *
    * @param string $phone_number
    *   Telephone Number to check.
-   * @param string $isValid
+   * @param bool $isValid
    *   Flag to check whether number was already checked for validity.
    */
-  public function verifyNumber($phone_number, $isValid) {
+  public function verifyNumber($phone_number, $isValid = FALSE) {
     // If the validity has not been checked: we check it here.
     try {
       if ($isValid == FALSE) {
-        $data = [];
         $validation = $this->twilioClient->lookups->v2->phoneNumbers($phone_number)->fetch();
-        $data = $validation;
-        return $data;
+        return $validation;
       }
       else {
         $validation = $this->twilioClient->lookups->v1->phoneNumbers($phone_number)->fetch(["type" => ["carrier"]]);
@@ -63,8 +54,8 @@ class TwilioAPIConnector {
     }
     catch (RequestException $e) {
       \Drupal::logger($e);
+      throw $e;
     }
-
   }
 
 }

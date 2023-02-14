@@ -8,6 +8,6 @@ configuration:
   methods:
     - GET
   formats:
-    - json
+    - psi_api_json
   authentication:
     - basic_auth
