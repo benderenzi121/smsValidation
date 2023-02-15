@@ -66,10 +66,22 @@ class ValidationResource extends ResourceBase {
    */
   public function get($phoneNumber) {
     // @todo Add regex validation on Phone number. Return a 400 error for bad input.
+    $errors = [];
+    $pattern = "/^[0-9]{10}$/";
+    if (!preg_match($pattern, $phoneNumber)) {
+      $document = new Document();
+      $document->setErrors(
+        [
+          'status' => '400',
+          'title' => 'Invalid Phone Number',
+          'detail' => 'The provided number must contain exactly 10 digits that are all numbers',
+        ]
+      );
+      return new ResourceResponse($document->toArray(), 400);
+    }
     // Makes a request through twilio SDK.
     // Will return an empty array if the request could not be made.
     $verifyNumber = $this->twilioService->verifyNumber($phoneNumber);
-    $errors = [];
     if (!empty($verifyNumber)) {
       if ($verifyNumber->valid === FALSE) {
         $errors[] = [

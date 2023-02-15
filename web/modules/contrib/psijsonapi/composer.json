@@ -1,0 +1,18 @@
+{
+    "name": "pencor/psijsonapi",
+    "description": "JSON API Encoder",
+    "type": "drupal-module",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Adam Harrington",
+            "email": "aharrington@pencor.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {},
+    "require-dev": {
+        "justinrainbow/json-schema": "^5.2",
+        "drupal/schemata": "1.x-dev#8325d172e1d6880aa24073f8f751ef089282cf9a"
+    }
+}

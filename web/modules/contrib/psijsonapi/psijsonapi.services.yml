@@ -1,0 +1,9 @@
+services:
+  serializer.encoder.psijsonapi:
+    class: Drupal\psijsonapi\Encoder\JsonEncoder
+    tags:
+      - { name: encoder, priority: 10, format: psi_api_json }
+
+  logger.channel.psijsonapi:
+    parent: logger.channel_base
+    arguments: ['psijsonapi']

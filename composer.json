@@ -8,25 +8,29 @@
         "docs": "https://www.drupal.org/docs/user_guide/en/index.html",
         "chat": "https://www.drupal.org/node/314178"
     },
-    "repositories": [
-        {
+    "repositories": {
+        "0": {
             "type": "composer",
             "url": "https://packages.drupal.org/8"
+        }, 
+        "psijsonapi": {
+            "type": "vcs",
+            "url": "git@github.com:Pencor/psijsonapi.git"
         }
-    ],
+    },
     "require": {
         "composer/installers": "^2.0",
-        "drupal/core-composer-scaffold": "^10.0",
-        "drupal/core-project-message": "^10.0",
-        "drupal/core-recommended": "^10.0",
+        "drupal/core-composer-scaffold": "^9.0",
+        "drupal/core-project-message": "^9.0",
+        "drupal/core-recommended": "^9.0",
         "drupal/restui": "^1.16",
+        "pencor/psijsonapi": "^0.1.1",
         "tobscure/json-api": "^0.3.0",
         "twilio/sdk": "^6.44"
     },
     "conflict": {
         "drupal/drupal": "*"
     },
-    "minimum-stability": "stable",
     "prefer-stable": true,
     "config": {
         "allow-plugins": {
@@ -36,7 +40,10 @@
             "phpstan/extension-installer": true,
             "dealerdirect/phpcodesniffer-composer-installer": true
         },
-        "sort-packages": true
+        "sort-packages": true,
+        "platform": {
+            "php": "7.3"
+        }
     },
     "extra": {
         "drupal-scaffold": {
@@ -94,5 +101,12 @@
                 "      composer remove drupal/core-project-message"
             ]
         }
+    },
+    "require-dev": {
+        "behat/mink": "^1.10",
+        "behat/mink-browserkit-driver": "^2.1",
+        "phpspec/prophecy-phpunit": "^2",
+        "phpunit/phpunit": "^9.5",
+        "symfony/phpunit-bridge": "^6.2"
     }
 }

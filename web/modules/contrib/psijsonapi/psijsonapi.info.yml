@@ -1,0 +1,8 @@
+name: PSI JSON API
+type: module
+description: Provides a JSON API rest formatter.
+core_version_requirement: ^8 || ^9
+package: Web services
+dependencies:
+  - drupal:serialization
+
