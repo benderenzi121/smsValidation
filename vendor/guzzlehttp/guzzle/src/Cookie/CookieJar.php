@@ -226,7 +226,7 @@ class CookieJar implements CookieJarInterface
     {
         return new \ArrayIterator(array_values($this->cookies));
     }
-    #[\ReturnTypeWillChange]
+
     public function extractCookies(
         RequestInterface $request,
         ResponseInterface $response

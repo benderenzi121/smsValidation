@@ -43,7 +43,8 @@
         "sort-packages": true,
         "platform": {
             "php": "7.3"
-        }
+        },
+        "platform-check": false
     },
     "extra": {
         "drupal-scaffold": {

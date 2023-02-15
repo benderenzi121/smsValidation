@@ -22,8 +22,8 @@ class TwilioAPIConnector {
    * Constructor function that creats an instance of our twilio client.
    */
   public function __construct() {
-    $sid   = 'AC91121581a65a14958ee7521f8576a3a5';
-    $token = '2bf5cdc1ca17125b4a01ac0e1cbd2b9e';
+    $sid   = Settings::get('twilio_sid');
+    $token = Settings::get('twilio_token');
 
     $this->twilioClient = new Client($sid, $token);
   }
